@@ -1,0 +1,23 @@
+name: Auto-Tag Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Grants permission to create tags
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Auto tag based on version bump
+        uses: klemensas/action-autotag@stable
+        with:
+          package_root: '.'   # Location of package.json or pyproject.toml
+          tag_prefix: 'v'    # Prefix tags with 'v' (e.g., v1.0.1)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Pass token via environment
